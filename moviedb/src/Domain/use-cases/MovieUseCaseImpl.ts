@@ -2,10 +2,14 @@ import { MovieVideo, mapMovieVideoResponseToMovieVideo } from "../entities/Movie
 import { PagedItems, mapPagedItemsResponseToPagedItems } from "../entities/PagedItem";
 import { MovieUseCase } from "./MovieUseCase";
 import { MovieRepositoryImpl } from "../../Data/repository/MovieRepository";
-import { MovieGenre } from "../entities/MovieGenre";
+import { ApiConfigurationRepositoryImpl } from "../../Data/repository/ApiConfigurationRepository";
+import { MovieGenresRepositoryImpl } from "../../Data/repository/MovieGenresRepository";
+import { MovieGenre, mapMovieGenreResponseToMovieGenre } from "../entities/MovieGenre";
 import { AxiosError } from "axios";
 
 const { getUpComingMovies, getTopRatedMovies, getVideosFromMovie } = new MovieRepositoryImpl();
+const { getApiConfiguration } = new ApiConfigurationRepositoryImpl();
+const { getMovieGenres } = new MovieGenresRepositoryImpl();
 
 export class MovieUseCaseImpl implements MovieUseCase {
     private baseImageUrl: string | null = null;
@@ -13,6 +17,9 @@ export class MovieUseCaseImpl implements MovieUseCase {
 
     async getUpComingMovies(): Promise<PagedItems> {
         try {
+            this.setImageBaseUrl();
+            this.getMovieGenres();
+
             const response = await getUpComingMovies();
             return Promise.resolve(mapPagedItemsResponseToPagedItems(response, this.baseImageUrl, this.movieGenres));
         } catch (error) {
@@ -23,6 +30,9 @@ export class MovieUseCaseImpl implements MovieUseCase {
     
     async getTopRatedMovies(): Promise<PagedItems> {
         try {
+            this.setImageBaseUrl();
+            this.getMovieGenres();
+
             const response = await getTopRatedMovies(DEFAULT_LANGUAGE);
             return Promise.resolve(mapPagedItemsResponseToPagedItems(response, this.baseImageUrl, this.movieGenres));
         } catch (error) {
@@ -33,6 +43,9 @@ export class MovieUseCaseImpl implements MovieUseCase {
 
     async getRecommendedMovies(language: string | null, yearOfRelease: number | null): Promise<PagedItems> {
         try {
+            this.setImageBaseUrl();
+            this.getMovieGenres();
+            
             const response = await getTopRatedMovies(language ? language : DEFAULT_LANGUAGE);
             // TODO: filter by year of release
             return Promise.resolve(mapPagedItemsResponseToPagedItems(response, this.baseImageUrl, this.movieGenres));
@@ -51,4 +64,20 @@ export class MovieUseCaseImpl implements MovieUseCase {
             return Promise.reject(e.response?.data);
         }
     }
+
+    private setImageBaseUrl = async () => {
+        if (!this.baseImageUrl) {
+            this.baseImageUrl = (await getApiConfiguration()).images.base_url;
+        }
+    };
+
+    private getMovieGenres = async () => {
+        if (this.movieGenres.length === 0) {
+            const response = await getMovieGenres().catch(() => null);
+            const genres = response?.genres?.map((genre) => mapMovieGenreResponseToMovieGenre(genre)) || [];
+            if (genres.length > 0) {
+              this.movieGenres.push(...genres);
+            }
+          }
+    };
 };
