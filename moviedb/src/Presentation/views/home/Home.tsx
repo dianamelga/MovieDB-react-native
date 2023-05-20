@@ -9,18 +9,37 @@ import commonStyles from "../../theme/commonStyles";
 import { colors } from "../../theme/colors";
 import { MediaItem } from "../../../Domain/entities/MediaItem";
 import useViewModel from "./ViewModel";
+import FilterButton from "../../components/FilterButton";
+import { MediaItemFilter } from "../../../Domain/entities/MediaItemFilter";
 
 type Props = {};
 
 export const HomeScreen: React.FC<Props> = (props) => {
   const flatListRef = useRef<FlatList<MediaItem>>(null);
-  const { loadData, error, upcoming, recommended, trending } = useViewModel();
+  const flatListFilterRef = useRef<FlatList<MediaItemFilter>>(null);
+  const {
+    loadData,
+    error,
+    upcoming,
+    recommended,
+    trending,
+    recommendedFilters,
+  } = useViewModel();
   useEffect(() => {
     loadData();
   }, []);
 
   const renderItem: ListRenderItem<MediaItem> = ({ item }) => {
     return <MovieCard mediaItem={item} onPress={() => {}} />;
+  };
+
+  const renderFilterItem: ListRenderItem<MediaItemFilter> = ({ item }) => {
+    return (
+      <FilterButton
+        title={item.name}
+        onPress={() => console.log("filter press -> ", item.name)}
+      />
+    );
   };
 
   return (
@@ -55,6 +74,15 @@ export const HomeScreen: React.FC<Props> = (props) => {
         />
       </View>
       <Text style={styles.title}>Recommended for you</Text>
+      <FlatList
+        ref={flatListFilterRef}
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={styles.list}
+        keyExtractor={(item) => item.name}
+        data={recommendedFilters}
+        renderItem={renderFilterItem}
+      />
       <FlatList
         ref={flatListRef}
         numColumns={2}
