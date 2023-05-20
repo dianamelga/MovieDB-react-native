@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet } from "react-native";
@@ -15,11 +15,24 @@ const App = () => {
       <StatusBar style="auto" />
       <GestureHandlerRootView style={styles.root}>
         <NavigationContainer>
-          <HomeScreen />
+          <Routes />
         </NavigationContainer>
       </GestureHandlerRootView>
     </SafeAreaProvider>
   );
+};
+
+const Routes = () => {
+  const [showSplash, setShowSplash] = useState(true);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowSplash(false);
+    }, 2000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  return showSplash ? <SplashScreen /> : <HomeScreen />;
 };
 
 const styles = StyleSheet.create({

@@ -84,11 +84,10 @@ const styles = StyleSheet.create({
     fontSize: commonStyles.FONT_SIZE_REGULAR,
     fontWeight: "bold",
     color: colors.white,
-    marginTop: 10,
+    marginTop: 1,
     alignSelf: "flex-start",
   },
   list: {
-    paddingBottom: 1,
     paddingTop: 15,
   },
 });
