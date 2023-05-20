@@ -56,6 +56,7 @@ export const HomeScreen: React.FC<Props> = (props) => {
         <FlatList
           ref={flatListRef}
           horizontal
+          initialNumToRender={20}
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={styles.list}
           keyExtractor={(item) => item.id.toString()}
@@ -66,26 +67,30 @@ export const HomeScreen: React.FC<Props> = (props) => {
         <FlatList
           ref={flatListRef}
           horizontal
+          initialNumToRender={20}
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={styles.list}
           keyExtractor={(item) => item.id.toString()}
           data={trending}
           renderItem={renderItem}
         />
+        <Text style={styles.title}>Recommended for you</Text>
+        <FlatList
+          ref={flatListFilterRef}
+          horizontal
+          initialNumToRender={20}
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={styles.filterList}
+          keyExtractor={(item) => item.name}
+          data={recommendedFilters}
+          renderItem={renderFilterItem}
+        />
       </View>
-      <Text style={styles.title}>Recommended for you</Text>
-      <FlatList
-        ref={flatListFilterRef}
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        contentContainerStyle={styles.list}
-        keyExtractor={(item) => item.name}
-        data={recommendedFilters}
-        renderItem={renderFilterItem}
-      />
+
       <FlatList
         ref={flatListRef}
         numColumns={2}
+        initialNumToRender={20}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.list}
         keyExtractor={(item) => item.id.toString()}
@@ -116,6 +121,9 @@ const styles = StyleSheet.create({
     alignSelf: "flex-start",
   },
   list: {
+    paddingTop: 15,
+  },
+  filterList: {
     paddingTop: 15,
   },
 });
