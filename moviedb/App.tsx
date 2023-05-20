@@ -1,25 +1,31 @@
-import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React from "react";
+import { NavigationContainer } from "@react-navigation/native";
+import { StatusBar } from "expo-status-bar";
+import { StyleSheet } from "react-native";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+
+import { colorPallete } from "./src/Presentation/theme/colors";
+import { SplashScreen } from "./src/Presentation/views/splash/Splash";
+import { HomeScreen } from "./src/Presentation/views/home/Home";
 
 const App = () => {
   return (
-    <NavigationContainer>
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
+    <SafeAreaProvider>
       <StatusBar style="auto" />
-    </View>
-    </NavigationContainer>
+      <GestureHandlerRootView style={styles.root}>
+        <NavigationContainer>
+          <HomeScreen />
+        </NavigationContainer>
+      </GestureHandlerRootView>
+    </SafeAreaProvider>
   );
-}
+};
 
 const styles = StyleSheet.create({
-  container: {
+  root: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: colorPallete.primary,
   },
 });
 
