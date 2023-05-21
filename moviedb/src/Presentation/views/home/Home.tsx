@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { ReactNode, useEffect, useRef } from "react";
 import { View, StyleSheet, Text, FlatList, ListRenderItem } from "react-native";
 import SvgUri from "react-native-svg-uri";
 
@@ -10,6 +10,7 @@ import { MediaItem } from "../../../Domain/entities/MediaItem";
 import useViewModel from "./ViewModel";
 import FilterButton from "../../components/FilterButton";
 import { MediaItemFilter } from "../../../Domain/entities/MediaItemFilter";
+import GridList from "../../components/GridList";
 
 type Props = {};
 
@@ -36,7 +37,7 @@ export const HomeScreen: React.FC<Props> = (props) => {
     );
   };
 
-  const renderGridItem: ListRenderItem<MediaItem> = ({ item }) => {
+  const renderGridItem = (item: MediaItem): ReactNode => {
     return (
       <MovieCard style={styles.gridItem} mediaItem={item} onPress={() => {}} />
     );
@@ -59,7 +60,7 @@ export const HomeScreen: React.FC<Props> = (props) => {
   };
 
   return (
-    <Screen contentContainerStyle={styles.container}>
+    <Screen contentContainerStyle={styles.container} scrollable>
       <View style={styles.logo}>
         <SvgUri
           source={require("../../../../assets/logo-marca.svg")}
@@ -103,15 +104,9 @@ export const HomeScreen: React.FC<Props> = (props) => {
         />
       </View>
       <View style={styles.spacer} />
-      <FlatList
-        ref={flatListRef}
-        numColumns={2}
-        initialNumToRender={20}
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.gridList}
-        keyExtractor={(item) => item.id.toString()}
-        data={recommended}
-        renderItem={renderGridItem}
+      <GridList
+        rowsCount={2}
+        data={recommended.map((item) => renderGridItem(item))}
       />
     </Screen>
   );
@@ -140,10 +135,6 @@ const styles = StyleSheet.create({
   filterList: {
     paddingTop: 15,
     justifyContent: "flex-start",
-  },
-  gridList: {
-    justifyContent: "center",
-    alignItems: "center",
   },
   listItem: {
     width: 138,
