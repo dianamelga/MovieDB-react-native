@@ -1,19 +1,23 @@
 import React, { useEffect, useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet } from "react-native";
+import { Platform, StyleSheet } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import Constants from "expo-constants";
 
 import { colorPallete } from "./src/Presentation/theme/colors";
 import { SplashScreen } from "./src/Presentation/views/splash/Splash";
 import { HomeScreen } from "./src/Presentation/views/home/Home";
 
 const App = () => {
+  const statusBarHeight = Constants.statusBarHeight || 0;
+  const paddingTop = Platform.OS === "android" ? statusBarHeight : 0;
+
   return (
     <SafeAreaProvider>
       <StatusBar style="auto" />
-      <GestureHandlerRootView style={styles.root}>
+      <GestureHandlerRootView style={[styles.root, { paddingTop }]}>
         <NavigationContainer>
           <Routes />
         </NavigationContainer>
