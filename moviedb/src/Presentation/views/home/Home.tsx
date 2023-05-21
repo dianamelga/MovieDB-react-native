@@ -86,7 +86,7 @@ export const HomeScreen: React.FC<Props> = (props) => {
           renderItem={renderFilterItem}
         />
       </View>
-
+      <View style={styles.spacer} />
       <FlatList
         ref={flatListRef}
         numColumns={2}
@@ -106,8 +106,6 @@ const styles = StyleSheet.create({
     ...commonStyles.paddingL,
   },
   firstSections: {
-    flexDirection: "column",
-    alignItems: "center",
     justifyContent: "center",
   },
   logo: {
@@ -125,5 +123,9 @@ const styles = StyleSheet.create({
   },
   filterList: {
     paddingTop: 15,
+    justifyContent: "flex-start",
+  },
+  spacer: {
+    marginVertical: 5,
   },
 });
