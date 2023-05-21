@@ -65,7 +65,6 @@ const HomeViewModel = () => {
   };
 
   const filterRecommendedMovies = async (filter: MediaItemFilter) => {
-    console.log("filterRecommendedMovies: ", JSON.stringify(filter));
     try {
       const newFilters = new Map(state.filterSelected);
       newFilters.set(filter.type, filter.filterValue);

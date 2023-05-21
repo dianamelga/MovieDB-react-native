@@ -1,3 +1,4 @@
+import { parseISO, getYear } from "date-fns";
 import {
   MovieVideo,
   mapMovieVideoResponseToMovieVideo,
@@ -72,10 +73,21 @@ export class MovieUseCaseImpl implements MovieUseCase {
       await this.setImageBaseUrl();
       await this.getMovieGenres();
 
-      const response = await getTopRatedMovies(
+      let response = await getTopRatedMovies(
         language ? language : DEFAULT_LANGUAGE
       );
-      // TODO: filter by year of release
+
+      if (yearOfRelease) {
+        let date: Date;
+        response = {
+          ...response,
+          results: response.results.filter((item) => {
+            date = parseISO(item.release_date);
+            return !isNaN(date.getTime()) && getYear(date) === yearOfRelease;
+          }),
+        };
+      }
+
       return Promise.resolve(
         mapPagedItemsResponseToPagedItems(
           response,

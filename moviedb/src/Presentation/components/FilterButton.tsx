@@ -19,7 +19,6 @@ const FilterButton: React.FC<RoundedButtonProps> = ({
   const handlePress = () => {
     const newValue = !isPressed;
     setIsPressed(newValue);
-    console.log("OnPress: ", newValue);
     onPress(newValue);
   };
 
