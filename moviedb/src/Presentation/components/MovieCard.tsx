@@ -30,8 +30,6 @@ const MovieCard: React.FC<MovieCardProps> = ({ mediaItem, style, onPress }) => {
 
 const styles = StyleSheet.create({
   card: {
-    width: 138,
-    height: 180,
     marginRight: 16,
     marginBottom: 16,
   },

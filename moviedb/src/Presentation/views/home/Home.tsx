@@ -31,7 +31,15 @@ export const HomeScreen: React.FC<Props> = (props) => {
   }, []);
 
   const renderItem: ListRenderItem<MediaItem> = ({ item }) => {
-    return <MovieCard mediaItem={item} onPress={() => {}} />;
+    return (
+      <MovieCard style={styles.listItem} mediaItem={item} onPress={() => {}} />
+    );
+  };
+
+  const renderGridItem: ListRenderItem<MediaItem> = ({ item }) => {
+    return (
+      <MovieCard style={styles.gridItem} mediaItem={item} onPress={() => {}} />
+    );
   };
 
   const renderFilterItem: ListRenderItem<MediaItemFilter> = ({ item }) => {
@@ -100,10 +108,10 @@ export const HomeScreen: React.FC<Props> = (props) => {
         numColumns={2}
         initialNumToRender={20}
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.list}
+        contentContainerStyle={styles.gridList}
         keyExtractor={(item) => item.id.toString()}
         data={recommended}
-        renderItem={renderItem}
+        renderItem={renderGridItem}
       />
     </Screen>
   );
@@ -132,6 +140,18 @@ const styles = StyleSheet.create({
   filterList: {
     paddingTop: 15,
     justifyContent: "flex-start",
+  },
+  gridList: {
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  listItem: {
+    width: 138,
+    height: 180,
+  },
+  gridItem: {
+    height: 205,
+    width: 156,
   },
   spacer: {
     marginVertical: 5,
