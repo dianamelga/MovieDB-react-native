@@ -6,5 +6,5 @@ export enum MediaItemFilterType {
 export interface MediaItemFilter {
   name: string;
   type: MediaItemFilterType;
-  filterValue: string;
+  filterValue: string | null;
 }

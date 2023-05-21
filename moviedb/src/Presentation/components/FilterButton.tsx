@@ -5,15 +5,22 @@ import commonStyles from "../theme/commonStyles";
 
 type RoundedButtonProps = {
   title: string;
+  isSelected: boolean;
   onPress: (selected: boolean) => void;
 };
 
-const FilterButton: React.FC<RoundedButtonProps> = ({ title, onPress }) => {
-  const [isPressed, setIsPressed] = useState(false);
+const FilterButton: React.FC<RoundedButtonProps> = ({
+  title,
+  isSelected,
+  onPress,
+}) => {
+  const [isPressed, setIsPressed] = useState(isSelected);
 
   const handlePress = () => {
-    setIsPressed(!isPressed);
-    onPress(isPressed);
+    const newValue = !isPressed;
+    setIsPressed(newValue);
+    console.log("OnPress: ", newValue);
+    onPress(newValue);
   };
 
   const buttonColor = isPressed ? colors.white : colors.transparent;

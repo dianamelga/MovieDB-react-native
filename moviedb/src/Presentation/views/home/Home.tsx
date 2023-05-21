@@ -1,7 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { View, StyleSheet, Text, FlatList, ListRenderItem } from "react-native";
 import SvgUri from "react-native-svg-uri";
-import { KeyboardAwareScrollView } from "@codler/react-native-keyboard-aware-scroll-view";
 
 import MovieCard from "../../components/MovieCard";
 import Screen from "../../components/Screen";
@@ -24,6 +23,8 @@ export const HomeScreen: React.FC<Props> = (props) => {
     recommended,
     trending,
     recommendedFilters,
+    filterSelected,
+    filterRecommendedMovies,
   } = useViewModel();
   useEffect(() => {
     loadData();
@@ -37,7 +38,14 @@ export const HomeScreen: React.FC<Props> = (props) => {
     return (
       <FilterButton
         title={item.name}
-        onPress={() => console.log("filter press -> ", item.name)}
+        isSelected={(filterSelected.get(item.type) ?? null) !== null}
+        onPress={(isSelected) => {
+          if (isSelected) {
+            filterRecommendedMovies(item);
+          } else {
+            filterRecommendedMovies({ ...item, filterValue: null });
+          }
+        }}
       />
     );
   };

@@ -15,11 +15,9 @@ export class ApiConfigurationRepositoryImpl
           api_key: API_KEY,
         },
       });
-      console.log(JSON.stringify(response.data));
       return Promise.resolve(response.data as ApiConfigurationResponse);
     } catch (error) {
       const e = error as AxiosError;
-      console.log(JSON.stringify(e.response?.data));
       return Promise.reject(e);
     }
   }

@@ -16,6 +16,7 @@ type InitialStateProp = {
   trending: MediaItem[];
   recommended: MediaItem[];
   recommendedFilters: MediaItemFilter[];
+  filterSelected: Map<MediaItemFilterType, string | null>;
 };
 
 const initialState: InitialStateProp = {
@@ -23,6 +24,7 @@ const initialState: InitialStateProp = {
   trending: [],
   recommended: [],
   recommendedFilters: [],
+  filterSelected: new Map(),
 };
 const HomeViewModel = () => {
   const [error, setError] = useState("");
@@ -50,6 +52,7 @@ const HomeViewModel = () => {
       ];
 
       setState({
+        ...initialState,
         upcoming: upcoming.results,
         trending: trending.results,
         recommended: recommended.results,
@@ -61,10 +64,36 @@ const HomeViewModel = () => {
     }
   };
 
+  const filterRecommendedMovies = async (filter: MediaItemFilter) => {
+    console.log("filterRecommendedMovies: ", JSON.stringify(filter));
+    try {
+      const newFilters = new Map(state.filterSelected);
+      newFilters.set(filter.type, filter.filterValue);
+
+      const yearOfRelease =
+        Number(newFilters.get(MediaItemFilterType.YEAR_OF_RELEASE)) || null;
+
+      const response = await movieUseCase.getRecommendedMovies(
+        newFilters.get(MediaItemFilterType.LANGUAGE) ?? null,
+        yearOfRelease
+      );
+
+      setState({
+        ...state,
+        recommended: response.results,
+        filterSelected: newFilters,
+      });
+    } catch (err) {
+      const e = err as AxiosError;
+      setError(e.message);
+    }
+  };
+
   return {
     error,
     ...state,
     loadData,
+    filterRecommendedMovies,
   };
 };
 

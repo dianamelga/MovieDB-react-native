@@ -14,11 +14,9 @@ export class MovieRepositoryImpl implements MovieRepository {
           api_key: API_KEY,
         },
       });
-      console.log(JSON.stringify(response?.data));
       return Promise.resolve(response.data as PagedItemsResponse);
     } catch (error) {
       let e = error as AxiosError;
-      console.log(JSON.stringify(e.response?.data));
       return Promise.reject(e);
     }
   }
@@ -31,11 +29,9 @@ export class MovieRepositoryImpl implements MovieRepository {
           language: language,
         },
       });
-      console.log(JSON.stringify(response?.data));
       return Promise.resolve(response.data as PagedItemsResponse);
     } catch (error) {
       let e = error as AxiosError;
-      console.log(JSON.stringify(e.response?.data));
       return Promise.reject(e);
     }
   }
@@ -51,11 +47,9 @@ export class MovieRepositoryImpl implements MovieRepository {
           language: language,
         },
       });
-      console.log(JSON.stringify(response?.data));
       return Promise.resolve(response.data as MovieVideosResponse);
     } catch (error) {
       let e = error as AxiosError;
-      console.log(JSON.stringify(e.response?.data));
       return Promise.reject(e);
     }
   }
