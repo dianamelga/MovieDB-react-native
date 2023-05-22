@@ -14,12 +14,12 @@ import { MediaItem } from "../../Domain/entities/MediaItem";
 type MovieCardProps = {
   mediaItem: MediaItem;
   style?: StyleProp<ViewStyle>;
-  onPress: (movieId: number) => void;
+  onPress: (mediaItem: MediaItem) => void;
 };
 
 const MovieCard: React.FC<MovieCardProps> = ({ mediaItem, style, onPress }) => {
   return (
-    <Card style={[style, styles.card]}>
+    <Card style={[style, styles.card]} onPress={() => onPress(mediaItem)}>
       <Image
         style={styles.image}
         source={{ uri: mediaItem?.posterUrl ?? "" }}

@@ -11,10 +11,12 @@ import useViewModel from "./ViewModel";
 import FilterButton from "../../components/FilterButton";
 import { MediaItemFilter } from "../../../Domain/entities/MediaItemFilter";
 import GridList from "../../components/GridList";
+import { MediaStackParamsList } from "../detail/Detail";
+import { StackScreenProps } from "@react-navigation/stack";
 
-type Props = {};
+type Props = StackScreenProps<MediaStackParamsList, "Home">;
 
-export const HomeScreen: React.FC<Props> = (props) => {
+export const HomeScreen: React.FC<Props> = ({ navigation }) => {
   const flatListRef = useRef<FlatList<MediaItem>>(null);
   const flatListFilterRef = useRef<FlatList<MediaItemFilter>>(null);
   const {
@@ -31,15 +33,27 @@ export const HomeScreen: React.FC<Props> = (props) => {
     loadData();
   }, []);
 
+  const onMovieClick = (item: MediaItem) => {
+    navigation.navigate("Detail", { mediaItem: item });
+  };
+
   const renderItem: ListRenderItem<MediaItem> = ({ item }) => {
     return (
-      <MovieCard style={styles.listItem} mediaItem={item} onPress={() => {}} />
+      <MovieCard
+        style={styles.listItem}
+        mediaItem={item}
+        onPress={onMovieClick}
+      />
     );
   };
 
   const renderGridItem = (item: MediaItem): ReactNode => {
     return (
-      <MovieCard style={styles.gridItem} mediaItem={item} onPress={() => {}} />
+      <MovieCard
+        style={styles.gridItem}
+        mediaItem={item}
+        onPress={onMovieClick}
+      />
     );
   };
 

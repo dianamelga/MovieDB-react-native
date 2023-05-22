@@ -7,7 +7,7 @@ import {
   View,
   ViewStyle,
 } from "react-native";
-import { colors } from "../theme/colors";
+import { colorPallete, colors } from "../theme/colors";
 
 type Props = {
   style?: StyleProp<ViewStyle>;
@@ -34,5 +34,6 @@ export default Screen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: colorPallete.primary,
   },
 });

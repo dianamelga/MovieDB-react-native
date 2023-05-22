@@ -8,7 +8,7 @@ import { API_KEY } from "../sources/remote/api/constants";
 export class MovieGenresRepositoryImpl implements MovieGenresRepository {
   async getMovieGenres(): Promise<GenresResponse> {
     try {
-      const response = await ApiMovieGenres.post("/movie/list", null, {
+      const response = await ApiMovieGenres.get("/movie/list", {
         params: {
           api_key: API_KEY,
         },
