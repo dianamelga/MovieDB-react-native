@@ -10,9 +10,12 @@ import Constants from "expo-constants";
 import { colorPallete } from "./src/Presentation/theme/colors";
 import { SplashScreen } from "./src/Presentation/views/splash/Splash";
 import { HomeScreen } from "./src/Presentation/views/home/Home";
-import { DetailScreen } from "./src/Presentation/views/detail/Detail";
+import {
+  DetailScreen,
+  MediaStackParamsList,
+} from "./src/Presentation/views/detail/Detail";
 
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator<MediaStackParamsList>();
 
 const App = () => {
   const statusBarHeight = Constants.statusBarHeight || 0;

@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  View,
-  StyleSheet,
-  Text,
-  ImageBackground,
-  TouchableOpacity,
-} from "react-native";
+import { View, StyleSheet, Text, ImageBackground } from "react-native";
 import { StackScreenProps } from "@react-navigation/stack";
 import { ScrollView } from "react-native-gesture-handler";
 import { LinearGradient } from "expo-linear-gradient";
@@ -31,7 +25,6 @@ type Props = StackScreenProps<MediaStackParamsList, "Detail">;
 
 export const DetailScreen: React.FC<Props> = ({ navigation, route }) => {
   const mediaItem = route?.params?.mediaItem ?? null;
-  console.log("genres: ", JSON.stringify(mediaItem));
   return (
     <Screen contentContainerStyle={styles.root}>
       <ImageBackground
