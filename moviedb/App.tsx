@@ -14,6 +14,7 @@ import {
   DetailScreen,
   MediaStackParamsList,
 } from "./src/Presentation/views/detail/Detail";
+import { VideoPlayerScreen } from "./src/Presentation/views/videoplayer/VideoPlayer";
 
 const Stack = createNativeStackNavigator<MediaStackParamsList>();
 
@@ -63,6 +64,14 @@ const Routes = () => {
       <Stack.Screen
         name="Detail"
         component={DetailScreen}
+        options={{
+          headerShown: true,
+          headerTitle: "",
+        }}
+      />
+      <Stack.Screen
+        name="Video"
+        component={VideoPlayerScreen}
         options={{
           headerShown: true,
           headerTitle: "",

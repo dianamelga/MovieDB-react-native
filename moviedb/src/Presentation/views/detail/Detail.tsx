@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { View, StyleSheet, Text, ImageBackground } from "react-native";
 import { StackScreenProps } from "@react-navigation/stack";
 import { ScrollView } from "react-native-gesture-handler";
@@ -15,16 +15,29 @@ import commonStyles from "../../theme/commonStyles";
 import { colors } from "../../theme/colors";
 import OutlinedButton from "../../components/OutlinedButton";
 import Badge from "../../components/Badge";
+import useViewModel from "./ViewModel";
 
 export type MediaStackParamsList = {
-  Home: {};
+  Home: undefined;
   Detail: { mediaItem: MediaItem };
+  Video: { videoId: string };
 };
 
 type Props = StackScreenProps<MediaStackParamsList, "Detail">;
 
 export const DetailScreen: React.FC<Props> = ({ navigation, route }) => {
   const mediaItem = route?.params?.mediaItem ?? null;
+  const { videoId, error, getVideoId } = useViewModel();
+
+  const watchTrailer = () => {
+    console.log("watchTrailer");
+    navigation.navigate("Video", { videoId: videoId });
+  };
+
+  useEffect(() => {
+    getVideoId(mediaItem.id);
+  }, []);
+
   return (
     <Screen contentContainerStyle={styles.root}>
       <ImageBackground
@@ -62,7 +75,7 @@ export const DetailScreen: React.FC<Props> = ({ navigation, route }) => {
               <OutlinedButton
                 style={styles.watchTrailerButton}
                 title="Watch trailer"
-                onPress={() => console.log("press")}
+                onPress={watchTrailer}
               />
               <Text style={styles.description}>{mediaItem?.overview}</Text>
             </View>

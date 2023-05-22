@@ -41,7 +41,7 @@ export class MovieRepositoryImpl implements MovieRepository {
     language: string | null
   ): Promise<MovieVideosResponse> {
     try {
-      const response = await ApiMovies.post(`/${movieId}/videos`, null, {
+      const response = await ApiMovies.get(`/${movieId}/videos`, {
         params: {
           api_key: API_KEY,
           language: language,
